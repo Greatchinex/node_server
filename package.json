@@ -1,0 +1,26 @@
+{
+  "name": "class",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "babel-watch src/server.js"
+  },
+  "author": "chilaka chinedu",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/runtime": "^7.12.5",
+    "argon2": "^0.27.0",
+    "babel-watch": "^7.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.13",
+    "nodemon": "^2.0.6"
+  }
+}
