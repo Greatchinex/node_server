@@ -1,6 +1,7 @@
 // Models
 import User from "../../models/user";
 import Post from "../../models/posts";
+import Comment from "../../models/comment";
 
 export default {
   create_post: async (req, res) => {
@@ -109,5 +110,72 @@ export default {
     } catch (err) {
       return res.json({ err: err.message });
     }
+  },
+
+  // Comment on a post
+  post_comment: async (req, res) => {
+    try {
+      // Check if Post with the params Id exists in DB
+      const findId = await Post.findById(req.params.postId);
+
+      if (!findId) {
+        return res.json({
+          msg: "Post not found",
+          success: false
+        });
+      }
+
+      const newComment = new Comment({
+        message: req.body.message,
+        // user is current logged in user from auth
+        user: req.user._id,
+        post: req.params.postId
+      });
+
+      const savedComment = await newComment.save();
+
+      return res.json({
+        msg: "Comment created",
+        success: true,
+        comment: savedComment
+      });
+    } catch (err) {
+      return res.json({ err: err.message });
+    }
+  },
+
+  // Fetch all comments for a certain posts
+  get_post_comment: async (req, res) => {
+    try {
+      // Fetch more details about the user and post instead of only the
+      // Object Id
+      const populateQuery = [
+        { path: "user", select: "full_name" },
+        { path: "post", select: "title content" }
+      ];
+
+      const postComment = await Comment.find({
+        post: req.params.postId
+      }).populate(populateQuery);
+
+      return res.json({
+        success: true,
+        comments: postComment
+      });
+    } catch (err) {
+      return res.json({ err: err.message });
+    }
   }
+
+  // 1. Assignment: Fetch all comments that belong to a single user......Auth Must be present
+  // 2. populate post
+  // Fetch single comment.....
+  // ADDITIONALS
+  // Update a comment
+  // Delete a comment
+
+  // Code Refactoring
+  // 1. create a comment.js file in controllers and routes folder.
+  // 2. move the post_comment and get_post_comment controllers along with their routes
+  // into the appropriate comment.js files. dont forget to export the router in the index.js
 };
