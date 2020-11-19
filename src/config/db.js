@@ -21,3 +21,7 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
   throw err;
 });
+
+// To Remove moongoose depreciation warnings
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);

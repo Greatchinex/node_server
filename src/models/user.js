@@ -17,6 +17,10 @@ const userSchema = new Schema(
     address: {
       type: String
     },
+    no_of_post: {
+      type: Number,
+      default: 0
+    },
     created_post: [
       {
         type: Schema.Types.ObjectId,
