@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 mongoose.Promise = global.Promise;
 
-const url =
-  "mongodb+srv://greatchinex:12220047@mycluster-9furg.gcp.mongodb.net/projaro?retryWrites=true&w=majority";
+const url = process.env.DB_URL;
 
 try {
   mongoose.connect(url, {

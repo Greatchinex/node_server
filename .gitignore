@@ -1,21 +1,6 @@
 
-# Created by https://www.gitignore.io/api/node,linux,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=node,linux,visualstudiocode
-
-### Linux ###
-*~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
+# Created by https://www.toptal.com/developers/gitignore/api/node,vscode
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,vscode
 
 ### Node ###
 # Logs
@@ -73,6 +58,12 @@ typings/
 # Optional eslint cache
 .eslintcache
 
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
 # Optional REPL history
 .node_repl_history
 
@@ -83,17 +74,26 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-# .env
-# .env.test
+.env
+.env.test
+.env*.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
+.parcel-cache
 
-# next.js build output
+# Next.js build output
 .next
 
-# nuxt.js build output
+# Nuxt.js build / generate output
 .nuxt
+dist
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
 
 # vuepress build output
 .vuepress/dist
@@ -107,18 +107,18 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Build folder
-build/
+# TernJS port file
+.tern-port
 
-### VisualStudioCode ###
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+### vscode ###
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+*.code-workspace
 
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-
-# End of https://www.gitignore.io/api/node,linux,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/node,vscode

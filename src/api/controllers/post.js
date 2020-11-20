@@ -6,28 +6,52 @@ import Comment from "../../models/comment";
 export default {
   create_post: async (req, res) => {
     try {
-      console.log(req.user);
-      const newPost = new Post({
-        title: req.body.title,
-        content: req.body.content,
-        creator: req.user._id
-      });
+      if (req.file) {
+        const newPost = new Post({
+          title: req.body.title,
+          content: req.body.content,
+          creator: req.user._id,
+          image: req.file.path
+        });
 
-      const savedPost = await newPost.save();
+        const savedPost = await newPost.save();
 
-      await User.findByIdAndUpdate(
-        req.user._id,
-        {
-          $inc: { no_of_post: +1 }
-        },
-        { new: true }
-      );
+        await User.findByIdAndUpdate(
+          req.user._id,
+          {
+            $inc: { no_of_post: +1 }
+          },
+          { new: true }
+        );
 
-      return res.json({
-        msg: "Post created successfully",
-        success: true,
-        post: savedPost
-      });
+        return res.json({
+          msg: "Post created successfully",
+          success: true,
+          post: savedPost
+        });
+      } else {
+        const newPost = new Post({
+          title: req.body.title,
+          content: req.body.content,
+          creator: req.user._id
+        });
+
+        const savedPost = await newPost.save();
+
+        await User.findByIdAndUpdate(
+          req.user._id,
+          {
+            $inc: { no_of_post: +1 }
+          },
+          { new: true }
+        );
+
+        return res.json({
+          msg: "Post created successfully",
+          success: true,
+          post: savedPost
+        });
+      }
     } catch (err) {
       return res.json({ err: err.message });
     }
@@ -115,30 +139,69 @@ export default {
   // Comment on a post
   post_comment: async (req, res) => {
     try {
-      // Check if Post with the params Id exists in DB
-      const findId = await Post.findById(req.params.postId);
+      console.log(req.files);
+      if (req.files) {
+        const urls = [];
 
-      if (!findId) {
+        // Loop through the req.files and for each file push the
+        // Image url(path) into the urls variable above
+        for (let index = 0; index < req.files.length; index++) {
+          const singleFile = req.files[index];
+
+          urls.push(singleFile.path);
+        }
+
+        // Check if Post with the params Id exists in DB
+        const findId = await Post.findById(req.params.postId);
+
+        if (!findId) {
+          return res.json({
+            msg: "Post not found",
+            success: false
+          });
+        }
+
+        const newComment = new Comment({
+          message: req.body.message,
+          // user is current logged in user from auth
+          user: req.user._id,
+          post: req.params.postId,
+          image: urls
+        });
+
+        const savedComment = await newComment.save();
+
         return res.json({
-          msg: "Post not found",
-          success: false
+          msg: "Comment created",
+          success: true,
+          comment: savedComment
+        });
+      } else {
+        // Check if Post with the params Id exists in DB
+        const findId = await Post.findById(req.params.postId);
+
+        if (!findId) {
+          return res.json({
+            msg: "Post not found",
+            success: false
+          });
+        }
+
+        const newComment = new Comment({
+          message: req.body.message,
+          // user is current logged in user from auth
+          user: req.user._id,
+          post: req.params.postId
+        });
+
+        const savedComment = await newComment.save();
+
+        return res.json({
+          msg: "Comment created",
+          success: true,
+          comment: savedComment
         });
       }
-
-      const newComment = new Comment({
-        message: req.body.message,
-        // user is current logged in user from auth
-        user: req.user._id,
-        post: req.params.postId
-      });
-
-      const savedComment = await newComment.save();
-
-      return res.json({
-        msg: "Comment created",
-        success: true,
-        comment: savedComment
-      });
     } catch (err) {
       return res.json({ err: err.message });
     }

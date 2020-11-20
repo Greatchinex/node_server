@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export default {
-  SECRET: "myownsuperduperdeadlysecret"
+  SECRET: process.env.JWT_SECRET
 };

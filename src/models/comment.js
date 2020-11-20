@@ -12,7 +12,12 @@ const commentSchema = new Schema(
     post: {
       type: Schema.Types.ObjectId,
       ref: "Post"
-    }
+    },
+    image: [
+      {
+        type: String
+      }
+    ]
   },
   { timestamps: true }
 );
